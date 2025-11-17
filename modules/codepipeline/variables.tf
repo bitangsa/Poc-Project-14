@@ -33,3 +33,8 @@ variable "codebuild_project_name" {
 variable "codebuild_project_arn" {
   type = string
 }
+
+variable "github_webhook_secret" {
+  type      = string
+  sensitive = true
+}
