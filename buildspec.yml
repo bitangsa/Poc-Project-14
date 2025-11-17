@@ -9,7 +9,7 @@ phases:
     commands:
       - echo "Running bash script..."
       - chmod +x scripts/script.sh
-      - ./scripts/run.sh
+      - ./scripts/script.sh
   post_build:
     commands:
       - echo "Build completed at `date`"
