@@ -47,7 +47,7 @@ data "aws_iam_policy_document" "codebuild_policy" {
 
 resource "aws_iam_policy" "codebuild_policy" {
   name = "${var.project_name}-codebuild-policy"
-  policy = data.aws_iam_policy_document.codebuild_assume.json
+  policy = data.aws_iam_policy_document.codebuild_policy.json
 }
 
 resource "aws_iam_role_policy_attachment" "codebuild_attach" {
