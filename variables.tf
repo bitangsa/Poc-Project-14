@@ -19,6 +19,6 @@ variable "github_branch" {
 }
 
 variable "github_oauth_token" {
-  type = string
+  type      = string
   sensitive = true
 }

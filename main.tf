@@ -3,7 +3,7 @@ terraform {
 
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
       version = "~> 5.0"
     }
   }
@@ -14,29 +14,29 @@ provider "aws" {
 }
 
 module "artifacts" {
-  source = "./modules/artifacts"
+  source       = "./modules/artifacts"
   project_name = var.project_name
 }
 
 
 module "codebuild" {
-  source = "./modules/codebuild"
-  project_name = var.project_name
+  source               = "./modules/codebuild"
+  project_name         = var.project_name
   artifacts_bucket_arn = module.artifacts.bucket_arn
 }
 
 module "codepipeline" {
   source = "./modules/codepipeline"
 
-  project_name = var.project_name
+  project_name          = var.project_name
   artifacts_bucket_name = module.artifacts.bucket_name
-  artifacts_bucket_arn = module.artifacts.bucket_arn
+  artifacts_bucket_arn  = module.artifacts.bucket_arn
 
-  github_owner = var.github_owner
-  github_repo = var.github_repo
-  github_branch = var.github_branch
+  github_owner       = var.github_owner
+  github_repo        = var.github_repo
+  github_branch      = var.github_branch
   github_oauth_token = var.github_oauth_token
 
   codebuild_project_name = module.codebuild.project_name
-  codebuild_project_arn = module.codebuild.project_arn
+  codebuild_project_arn  = module.codebuild.project_arn
 }
