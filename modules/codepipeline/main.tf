@@ -7,7 +7,7 @@ data "aws_iam_policy_document" "codepipeline_assume" {
       identifiers = ["codepipeline.amazonaws.com"]
     }
 
-    actions = ["sts.AssumeRole"]
+    actions = ["sts:AssumeRole"]
   }
 }
 
