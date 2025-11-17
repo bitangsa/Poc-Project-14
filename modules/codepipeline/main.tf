@@ -80,7 +80,7 @@ resource "aws_codepipeline" "this" {
         Repo = var.github_repo
         Branch = var.github_branch
         OAuthToken = var.github_oauth_token
-        PollForSourceChanges = "true"
+        PollForSourceChanges = "false"
     }
   }
 
@@ -107,4 +107,20 @@ stage {
  tags = {
    Project = var.project_name
  }
+}
+
+resource "aws_codepipeline_webhook" "github" {
+  name = "${var.project_name}-github-webhook"
+  authentication = "GITHUB_HMAC"
+  target_pipeline = aws_codepipeline.this.name
+  target_action = "GitHub_Source"
+
+  authentication_configuration {
+    secret_token = var.github_webhook_secret
+  }
+
+  filter {
+    json_path = "$.ref"
+    match_equals = "refs/heads/${var.github_branch}"
+  }
 }
