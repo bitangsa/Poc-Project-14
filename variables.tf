@@ -47,3 +47,8 @@ variable "codepipeline_policy_statements" {
     resources = list(string)
   }))
 }
+
+variable "notification_email" {
+  type        = string
+  description = "Email address for pipeline notifications"
+}
