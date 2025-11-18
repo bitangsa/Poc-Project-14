@@ -47,3 +47,11 @@ module "codepipeline" {
 
   github_webhook_secret = var.github_webhook_secret
 }
+
+module "notifications" {
+  source = "./modules/notifications"
+
+  project_name       = var.project_name
+  notification_email = var.notification_email
+  pipeline_name      = module.codepipeline.pipeline_name
+}
