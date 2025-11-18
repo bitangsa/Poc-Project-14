@@ -13,7 +13,7 @@ phases:
   post_build:
     commands:
       - echo "Build is completed at `date`"
-      - echo "This is output from project 14"
+      - echo "This is the output from project 14"
 
 artifacts:
   files:

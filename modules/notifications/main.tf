@@ -31,8 +31,8 @@ resource "aws_cloudwatch_event_rule" "codepipeline_state_change" {
   name = "${var.project_name}-codepipeline-state-change"
 
   event_pattern = jsonencode({
-    "source" : ["codepipeline.amazonaws.com"],
-    "detail-type" : ["CodePipeline Execution State Change"],
+    "source" : ["aws.codepipeline"],
+    "detail-type" : ["CodePipeline Pipeline Execution State Change"],
     "detail" : {
       "pipeline" : [var.pipeline_name],
       "state" : ["SUCCEEDED", "FAILED"]
