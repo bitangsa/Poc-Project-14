@@ -13,3 +13,7 @@ output "pipeline_name" {
 output "pipeline_arn" {
   value = module.codepipeline.pipeline_arn
 }
+
+output "webhook_url" {
+  value = module.codepipeline.webhook_url
+}
