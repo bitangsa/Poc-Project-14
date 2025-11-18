@@ -90,7 +90,7 @@ resource "aws_codepipeline" "this" {
         Repo = var.github_repo
         Branch = var.github_branch
         OAuthToken = var.github_oauth_token
-        PollForSourceChanges = "true"
+        PollForSourceChanges = "false"
     }
   }
 
@@ -110,7 +110,7 @@ stage {
 
       configuration = {
         ProjectName = var.codebuild_project_name
-        PollForSourceChanges = "true"
+        PollForSourceChanges = "false"
       }
     }
 

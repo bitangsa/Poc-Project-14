@@ -23,6 +23,10 @@ variable "github_oauth_token" {
   sensitive = true
 }
 
+variable "github_webhook_secret" {
+  type = string
+}
+
 # variable "artifacts_bucket_arn" {
 #   type = string
 # }
