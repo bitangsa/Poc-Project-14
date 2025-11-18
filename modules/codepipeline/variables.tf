@@ -37,7 +37,7 @@ variable "codebuild_project_arn" {
 variable "github_webhook_secret" {
   type      = string
   sensitive = true
-  default   = "dummy"
+  # default   = "dummy"
 }
 
 variable "policy_statements" {
