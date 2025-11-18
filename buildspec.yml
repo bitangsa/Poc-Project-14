@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo "Install phase on Amazon-Linux-2 in CodeBuild"
+      - echo "Install phase on Amazon Linux 2 in CodeBuild"
       - uname -a
   build:
     commands:
