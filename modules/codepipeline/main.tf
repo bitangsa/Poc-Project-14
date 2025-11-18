@@ -17,33 +17,43 @@ resource "aws_iam_role" "codepipeline_role" {
 }
 
 data "aws_iam_policy_document" "codepipeline_policy" {
-  statement {
-    effect = "Allow"
 
-    actions = [
-      "s3:GetObject",
-      "s3:GetObjectVersion",
-      "s3:PutObject"
-    ]
+  dynamic "statement" {
+  for_each = var.policy_statements
 
-    resources = [
-      var.artifacts_bucket_arn,
-      "${var.artifacts_bucket_arn}/*"
-    ]
+  content {
+    effect = statement.var.effect
+    actions = statement.var.actions
+    resources = statement.var.resources
   }
+}
+  # statement {
+  #   effect = "Allow"
 
-  statement {
-    effect = "Allow"
+  #   actions = [
+  #     "s3:GetObject",
+  #     "s3:GetObjectVersion",
+  #     "s3:PutObject"
+  #   ]
 
-    actions = [
-      "codebuild:StartBuild",
-      "codebuild:BatchGetBuilds"
-    ]
+  #   resources = [
+  #     var.artifacts_bucket_arn,
+  #     "${var.artifacts_bucket_arn}/*"
+  #   ]
+  # }
 
-    resources = [
-      var.codebuild_project_arn
-    ]
-  }
+  # statement {
+  #   effect = "Allow"
+
+  #   actions = [
+  #     "codebuild:StartBuild",
+  #     "codebuild:BatchGetBuilds"
+  #   ]
+
+  #   resources = [
+  #     var.codebuild_project_arn
+  #   ]
+  # }
 }
 
 resource "aws_iam_policy" "codepipeline_policy" {

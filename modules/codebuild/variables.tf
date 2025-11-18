@@ -5,3 +5,11 @@ variable "project_name" {
 variable "artifacts_bucket_arn" {
   type = string
 }
+
+variable "policy_statements" {
+  type = list(object({
+    effect = string
+    actions = list(string)
+    resources = list(string)
+  }))
+}

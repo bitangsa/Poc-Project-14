@@ -39,3 +39,11 @@ variable "github_webhook_secret" {
   sensitive = true
   default   = "dummy"
 }
+
+variable "policy_statements" {
+  type = list(object({
+    effect = string
+    actions = list(string)
+    resources = list(string)
+  }))
+}
