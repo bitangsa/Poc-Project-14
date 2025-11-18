@@ -17,33 +17,46 @@ resource "aws_iam_role" "codebuild_role" {
 }
 
 data "aws_iam_policy_document" "codebuild_policy" {
-  statement {
-    effect = "Allow"
 
-    actions = [ 
-        "logs:CreateLogGroup",
-        "logs:CreateLogStream",
-        "logs:PutLogEvents"
-     ]
+dynamic "statement" {
+  for_each = var.policy_statements
 
-     resources = ["*"]
-  }
-
-  statement {
-    effect = "Allow"
-
-    actions = [ 
-        "s3:GetObject",
-        "s3:PutObject",
-        "s3:GetObjectVersion"
-     ]
-
-     resources = [ 
-        var.artifacts_bucket_arn,
-        "${var.artifacts_bucket_arn}/*"
-      ]
+  content {
+    effect = statement.var.effect
+    actions = statement.var.actions
+    resources = statement.var.resources
   }
 }
+
+  # statement {
+  #   effect = "Allow"
+
+  #   actions = [ 
+  #       "logs:CreateLogGroup",
+  #       "logs:CreateLogStream",
+  #       "logs:PutLogEvents"
+  #    ]
+
+  #    resources = ["*"]
+  # }
+
+  # statement {
+  #   effect = "Allow"
+
+  #   actions = [ 
+  #       "s3:GetObject",
+  #       "s3:PutObject",
+  #       "s3:GetObjectVersion"
+  #    ]
+
+  #    resources = [ 
+  #       var.artifacts_bucket_arn,
+  #       "${var.artifacts_bucket_arn}/*"
+  #     ]
+  # }
+
+}
+
 
 resource "aws_iam_policy" "codebuild_policy" {
   name = "${var.project_name}-codebuild-policy"
