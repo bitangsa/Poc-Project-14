@@ -22,9 +22,9 @@ data "aws_iam_policy_document" "codepipeline_policy" {
   for_each = var.policy_statements
 
   content {
-    effect = statement.var.effect
-    actions = statement.var.actions
-    resources = statement.var.resources
+    effect = statement.value.effect
+    actions = statement.value.actions
+    resources = statement.value.resources
   }
 }
   # statement {
