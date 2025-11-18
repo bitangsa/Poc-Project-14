@@ -44,4 +44,6 @@ module "codepipeline" {
 
   codebuild_project_name = module.codebuild.project_name
   codebuild_project_arn  = module.codebuild.project_arn
+
+  github_webhook_secret = var.github_webhook_secret
 }
