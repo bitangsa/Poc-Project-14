@@ -12,7 +12,7 @@ phases:
       - ./scripts/script.sh
   post_build:
     commands:
-      - echo "Build completed at `date`"
+      - echo "Build is completed at `date`"
       - echo "This is the output from project 14"
 
 artifacts:
