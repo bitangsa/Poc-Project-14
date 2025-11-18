@@ -33,8 +33,9 @@ module "codepipeline" {
   project_name          = var.project_name
   artifacts_bucket_name = module.artifacts.bucket_name
   artifacts_bucket_arn  = module.artifacts.bucket_arn
-  
+
   policy_statements = var.codepipeline_policy_statements
+
 
   github_owner       = var.github_owner
   github_repo        = var.github_repo
