@@ -110,7 +110,6 @@ stage {
 
       configuration = {
         ProjectName = var.codebuild_project_name
-        PollForSourceChanges = "false"
       }
     }
 
