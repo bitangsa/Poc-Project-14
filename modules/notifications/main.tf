@@ -92,14 +92,7 @@ resource "aws_cloudwatch_event_target" "codepipeline_to_sns" {
 
     input_template = <<TEMPLATE
 {
-  "default": "CodePipeline Notification
-   Pipeline : <pipeline>
-   State    : <state>
-   Execution: <exec_id>
-   Time     : <time>
-   Region   : <region>
-   Console  : https://console.aws.amazon.com/codesuite/codepipeline/pipelines/<pipeline>/executions/<exec_id>/timeline
-   (You are receiving this because you subscribed to ${var.project_name} notifications.)"
+  "default": "CodePipeline Notification\n\nPipeline : <pipeline>\nState    : <state>\nExecution: <exec_id>\nTime     : <time>\nRegion   : <region>\nConsole  : https://console.aws.amazon.com/codesuite/codepipeline/pipelines/<pipeline>/executions/<exec_id>/timeline\n\n(You are receiving this because you subscribed to ${var.project_name} notifications.)"
 }
 TEMPLATE
   }
