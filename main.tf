@@ -41,7 +41,7 @@ module "codepipeline" {
   github_repo        = var.github_repo
   github_branch      = var.github_branch
   github_oauth_token = var.github_oauth_token
-
+ 
   codebuild_project_name = module.codebuild.project_name
   codebuild_project_arn  = module.codebuild.project_arn
 
