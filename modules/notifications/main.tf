@@ -27,6 +27,35 @@ resource "aws_sns_topic_policy" "pipeline_notifications" {
   policy = data.aws_iam_policy_document.sns_pipeline_policy.json
 }
 
+resource "aws_iam_role" "eventbridge_invoke_sns" {
+  name = "${var.project_name}-ev2sns-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Principal = { Service = "events.amazonaws.com" }
+      Action = "sts:AssumeRole"
+    }]
+  })
+}
+
+resource "aws_iam_role_policy" "eventbridge_invoke_sns_policy" {
+  name = "${var.project_name}-ev2sns-policy"
+  role = aws_iam_role.eventbridge_invoke_sns.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = ["sns:Publish"]
+        Resource = aws_sns_topic.pipeline_notifications.arn
+      }
+    ]
+  })
+}
+
 resource "aws_cloudwatch_event_rule" "codepipeline_state_change" {
   name = "${var.project_name}-codepipeline-state-change"
 
@@ -41,7 +70,30 @@ resource "aws_cloudwatch_event_rule" "codepipeline_state_change" {
 }
 
 
+# resource "aws_cloudwatch_event_target" "codepipeline_to_sns" {
+#   rule = aws_cloudwatch_event_rule.codepipeline_state_change.name
+#   arn  = aws_sns_topic.pipeline_notifications.arn
+# }
+
 resource "aws_cloudwatch_event_target" "codepipeline_to_sns" {
-  rule = aws_cloudwatch_event_rule.codepipeline_state_change.name
-  arn  = aws_sns_topic.pipeline_notifications.arn
+  rule     = aws_cloudwatch_event_rule.codepipeline_state_change.name
+  arn      = aws_sns_topic.pipeline_notifications.arn
+  role_arn = aws_iam_role.eventbridge_invoke_sns.arn
+
+  input_transformer {
+    input_paths = {
+      pipeline   = "$.detail.pipeline"
+      state      = "$.detail.state"
+      exec_id    = "$.detail['execution-id']"
+      region     = "$.region"
+      time       = "$.time"
+      account    = "$.account"
+    }
+
+    input_template = <<TEMPLATE
+{
+  "default": "CodePipeline Notification\n\nPipeline : <pipeline>\nState    : <state>\nExecution: <exec_id>\nTime     : <time>\nRegion   : <region>\nConsole  : https://console.aws.amazon.com/codesuite/codepipeline/pipelines/<pipeline>/executions/<exec_id>/timeline\n\n(You are receiving this because you subscribed to ${var.project_name} notifications.)"
+}
+TEMPLATE
+  }
 }
