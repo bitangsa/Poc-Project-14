@@ -84,7 +84,7 @@ resource "aws_cloudwatch_event_target" "codepipeline_to_sns" {
     input_paths = {
       pipeline   = "$.detail.pipeline"
       state      = "$.detail.state"
-      exec_id    = "$.detail['execution-id']"
+      exec_id    = "$.detail.execution-id"
       region     = "$.region"
       time       = "$.time"
       account    = "$.account"
