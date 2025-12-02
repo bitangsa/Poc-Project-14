@@ -56,6 +56,40 @@ data "aws_iam_policy_document" "codepipeline_policy" {
   # }
 }
 
+data "aws_iam_policy_document" "codepipeline_codedeploy" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "codedeploy:CreateDeployment",
+      "codedeploy:GetDeployment",
+      "codedeploy:GetDeploymentConfig",
+      "codedeploy:GetApplication",
+      "codedeploy:GetDeploymentGroup"
+    ]
+
+    resources = ["*"]
+
+    # resources = [
+    #   "arn:aws:codedeploy:${var.region}:${data.aws_caller_identity.current.account_id}:application:${var.codedeploy_app_name}",
+    #   "arn:aws:codedeploy:${var.region}:${data.aws_caller_identity.current.account_id}:deploymentgroup:${var.codedeploy_app_name}/${var.codedeploy_deployment_group_name}",
+    #   "arn:aws:codedeploy:${var.region}:${data.aws_caller_identity.current.account_id}:deploymentconfig:*"
+    # ]
+  }
+}
+
+resource "aws_iam_role_policy" "codepipeline_codedeploy" {
+  name   = "${var.project_name}-codepipeline-codedeploy"
+  role   = aws_iam_role.codepipeline_role.id
+  policy = data.aws_iam_policy_document.codepipeline_codedeploy.json
+}
+
+
+# resource "aws_iam_role_policy_attachment" "codepipeline_codedeploy_managed" {
+#   role       = aws_iam_role.codepipeline_role.name
+#   policy_arn = "arn:aws:iam::aws:policy/AWSCodeDeployRoleForCodePipeline"
+# }
+
 resource "aws_iam_policy" "codepipeline_policy" {
   name = "${var.project_name}-codepipeline-policy"
   policy = data.aws_iam_policy_document.codepipeline_policy.json
