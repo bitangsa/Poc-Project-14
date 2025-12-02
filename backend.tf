@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket       = "bsa-tf-state-store"
+    bucket       = "bsa-tf-state-store-poc"
     key          = "poc-project-14/terraform.tfstate"
     region       = "eu-west-1"
     use_lockfile = true
