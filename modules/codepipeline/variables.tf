@@ -57,3 +57,7 @@ variable "codedeploy_deployment_group_name" {
   type        = string
   description = "CodeDeploy deployment group name"
 }
+
+variable "region" {
+  type = string
+}

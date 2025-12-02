@@ -50,7 +50,7 @@ module "ec2_web" {
 
   iam_instance_profile_name = module.iam_ec2.instance_profile_name
 
-  index_message = "Hello This is Bitangsa. Deployed with CodeDeploy."
+  index_message = "Hello This is Bitangsa Saha. Deployed with CodeDeploy."
 
   # This must match what your CodeDeploy deployment group uses
   codedeploy_app_tag_key   = "CodeDeployApp"
@@ -87,6 +87,7 @@ module "codepipeline" {
   source = "./modules/codepipeline"
 
   project_name          = var.project_name
+  region       = var.aws_region
   artifacts_bucket_name = module.artifacts.bucket_name
   artifacts_bucket_arn  = module.artifacts.bucket_arn
 
