@@ -114,6 +114,45 @@ stage {
     }
 
  }
+
+# stage {
+#     name = "Deploy"
+
+#     action {
+#       name            = "Deploy"
+#       category        = "Deploy"
+#       owner           = "AWS"
+#       provider        = "CodeDeploy"
+#       version         = "1"
+#       input_artifacts = ["BuildOutput"]
+
+#       configuration = {
+#         ApplicationName     = var.codedeploy_app_name
+#         DeploymentGroupName = var.codedeploy_deployment_group_name
+#       }
+#     }
+#   }
+
+  stage {
+    name = "Deploy"
+
+    action {
+      name            = "CodeDeploy"
+      category        = "Deploy"
+      owner           = "AWS"
+      provider        = "CodeDeploy"
+      version         = "1"
+
+      input_artifacts  = ["build_output"]   # from Build stage
+      output_artifacts = []
+
+      configuration = {
+        ApplicationName     = var.codedeploy_app_name
+        DeploymentGroupName = var.codedeploy_deployment_group_name
+      }
+    }
+  }
+
  tags = {
    Project = var.project_name
  }
