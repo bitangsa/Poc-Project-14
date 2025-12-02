@@ -33,8 +33,8 @@ variable "github_webhook_secret" {
 
 variable "codebuild_policy_statements" {
   type = list(object({
-    effect = string
-    actions = list(string)
+    effect    = string
+    actions   = list(string)
     resources = list(string)
   }))
 }
@@ -42,8 +42,8 @@ variable "codebuild_policy_statements" {
 
 variable "codepipeline_policy_statements" {
   type = list(object({
-    effect = string
-    actions = list(string)
+    effect    = string
+    actions   = list(string)
     resources = list(string)
   }))
 }
@@ -51,4 +51,18 @@ variable "codepipeline_policy_statements" {
 variable "notification_email" {
   type        = string
   description = "Email address for pipeline notifications"
+}
+
+variable "region" {
+  type = string
+  default = "eu-west-1"
+}
+
+variable "environment" {
+  type = string
+}
+
+variable "admin_cidr" {
+  type    = string
+  default = "0.0.0.0/0"
 }

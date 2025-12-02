@@ -47,3 +47,13 @@ variable "policy_statements" {
     resources = list(string)
   }))
 }
+
+variable "codedeploy_app_name" {
+  type        = string
+  description = "CodeDeploy application name"
+}
+
+variable "codedeploy_deployment_group_name" {
+  type        = string
+  description = "CodeDeploy deployment group name"
+}
