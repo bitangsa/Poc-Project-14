@@ -1,5 +1,594 @@
-<html>
-  <body>
-    <h1>Hello, This is Project-14 </h1>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Secrets &amp; Config Management for ML Jobs – Project Overview</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0f172a;           /* page background */
+      --card-bg: #020617;      /* card background */
+      --accent: #38bdf8;       /* cyan */
+      --accent-soft: #0ea5e933;
+      --accent-strong: #0ea5e9;
+      --border-subtle: #1f2933;
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --chip-bg: #1f2937;
+      --danger: #f97373;
+      --success: #4ade80;
+      --warning: #facc15;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.65);
+      --radius-lg: 18px;
+      --radius-pill: 999px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1e293b 0, #020617 55%, #000 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+
+    .shell {
+      max-width: 1080px;
+      width: 100%;
+    }
+
+    .card {
+      background: radial-gradient(circle at top left, #0b1220 0, #020617 56%);
+      border-radius: 26px;
+      padding: 28px 28px 26px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid #1f2937;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -120px -160px auto auto;
+      background: radial-gradient(circle at center, #0ea5e955 0, transparent 62%);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .title-block {
+      max-width: 70%;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border: 1px solid #1e293b;
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--accent);
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-strong);
+      box-shadow: 0 0 10px var(--accent-soft);
+    }
+
+    h1 {
+      margin: 10px 0 4px;
+      font-size: 26px;
+      letter-spacing: 0.03em;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .meta-block {
+      text-align: right;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .meta-block strong {
+      color: var(--accent-strong);
+      font-weight: 600;
+    }
+
+    .meta-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid #1f2937;
+      background: rgba(15, 23, 42, 0.8);
+      margin-bottom: 6px;
+    }
+
+    .meta-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--success);
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.2fr);
+      gap: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 860px) {
+      .card {
+        padding: 22px 18px 20px;
+        border-radius: 18px;
+      }
+
+      .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .title-block {
+        max-width: 100%;
+      }
+
+      .content-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .section {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 20px;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      padding: 16px 16px 14px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-title span.icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 7px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid #1f2937;
+      color: var(--accent);
+    }
+
+    .section-badge {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: var(--radius-pill);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid #111827;
+      color: var(--text-muted);
+    }
+
+    .overview-text {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #d1d5db;
+    }
+
+    .overview-text b {
+      color: #e5e7eb;
+      font-weight: 600;
+    }
+
+    .objective-points {
+      margin: 10px 0 0;
+      padding-left: 18px;
+      font-size: 13px;
+      color: #cbd5f5;
+    }
+
+    .objective-points li {
+      margin-bottom: 4px;
+    }
+
+    .objective-points li span.label {
+      font-weight: 600;
+      color: var(--accent-strong);
+      margin-right: 4px;
+    }
+
+    .highlight-callout {
+      margin-top: 10px;
+      padding: 8px 10px;
+      border-radius: 14px;
+      background: rgba(8, 47, 73, 0.7);
+      border: 1px solid rgba(56, 189, 248, 0.5);
+      font-size: 12px;
+      color: #e0f2fe;
+    }
+
+    .highlight-callout strong {
+      color: #7dd3fc;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .chip {
+      padding: 5px 10px;
+      border-radius: var(--radius-pill);
+      background: var(--chip-bg);
+      border: 1px solid #111827;
+      font-size: 11px;
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      box-shadow: 0 0 8px var(--accent-soft);
+    }
+
+    .component-list {
+      list-style: none;
+      margin: 6px 0;
+      padding: 0;
+      font-size: 13px;
+      color: #e5e7eb;
+    }
+
+    .component-list li {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 5px;
+    }
+
+    .component-bullet {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-top: 4px;
+      background: linear-gradient(135deg, var(--accent-strong), #22c55e);
+    }
+
+    .component-label {
+      font-weight: 600;
+      color: var(--accent-strong);
+      margin-right: 4px;
+    }
+
+    .data-card,
+    .model-card {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 14px;
+      border: 1px solid #111827;
+      padding: 9px 10px;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .data-title,
+    .model-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+
+    .data-body span.label,
+    .model-body span.label {
+      font-weight: 600;
+      color: var(--accent-strong);
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .tag {
+      font-size: 11px;
+      border-radius: 999px;
+      padding: 4px 9px;
+      border: 1px solid #111827;
+      background: #020617;
+      color: #9ca3af;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid #111827;
+    }
+
+    .legend-badge {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+    }
+
+    .legend-badge.danger {
+      background: var(--danger);
+    }
+
+    .legend-badge.success {
+      background: var(--success);
+    }
+
+    .legend-badge.warning {
+      background: var(--warning);
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="card">
+      <div class="card-header">
+        <div class="title-block">
+          <div class="pill">
+            <span class="pill-dot"></span>
+            ML Platform – Security Pattern
+          </div>
+          <h1>Secrets &amp; Config Management for ML Jobs</h1>
+          <div class="subtitle">
+            A minimal, opinionated structure for keeping credentials out of notebooks and code,
+            while still letting training and inference jobs run safely.
+          </div>
+        </div>
+        <div class="meta-block">
+          <div class="meta-chip">
+            <span class="meta-dot"></span>
+            <span><strong>Scope:</strong> Single ML project</span>
+          </div>
+          <div>Environment: <strong>Dev / Prod</strong></div>
+        </div>
+      </div>
+
+      <div class="content-grid">
+        <!-- LEFT: Objective + Components -->
+        <section class="section">
+          <div class="section-header">
+            <div class="section-title">
+              <span class="icon">1</span>
+              Project Objective
+            </div>
+            <div class="section-badge">Goal driven</div>
+          </div>
+          <div class="overview-text">
+            The core objective of this project is to keep
+            <b>passwords, API keys, AWS credentials (including the AWS Secret Access Key)</b>
+            out of notebooks and source code. Instead, all secrets live in a secure vault and are
+            accessed at runtime using <b>least-privilege IAM roles</b>.
+          </div>
+
+          <ul class="objective-points">
+            <li>
+              <span class="label">a.</span>
+              If someone sees the code or notebook, they still can’t see the underlying secrets.
+            </li>
+            <li>
+              <span class="label">b.</span>
+              If a secret is compromised, it can be rotated without touching or redeploying code.
+            </li>
+            <li>
+              <span class="label">c.</span>
+              Auditors can track which identity accessed which secret and when.
+            </li>
+          </ul>
+
+          <div class="highlight-callout">
+            <strong>Design principle:</strong> source code is treated as non-secret;
+            only the vault and IAM layer know the actual credentials.
+          </div>
+
+          <div class="section-header" style="margin-top:16px;">
+            <div class="section-title">
+              <span class="icon">2</span>
+              Core Components
+            </div>
+            <div class="section-badge">Security controls</div>
+          </div>
+
+          <div class="pill-row">
+            <div class="chip">
+              <span class="chip-dot"></span>
+              IAM roles &amp; policies
+            </div>
+            <div class="chip">
+              <span class="chip-dot"></span>
+              Secrets vault (e.g. AWS Secrets Manager / Parameter Store)
+            </div>
+            <div class="chip">
+              <span class="chip-dot"></span>
+              AWS CodeGuru Reviewer – secrets detector
+            </div>
+            <div class="chip">
+              <span class="chip-dot"></span>
+              CI/CD integration
+            </div>
+          </div>
+
+          <ul class="component-list">
+            <li>
+              <span class="component-bullet"></span>
+              <div>
+                <span class="component-label">IAM Roles &amp; Policies</span>
+                Attach least-privilege roles to ML jobs so they can read only the exact secrets they need.
+              </div>
+            </li>
+            <li>
+              <span class="component-bullet"></span>
+              <div>
+                <span class="component-label">Secrets Storage</span>
+                Central, encrypted store for all sensitive config: tokens, keys, connection strings.
+              </div>
+            </li>
+            <li>
+              <span class="component-bullet"></span>
+              <div>
+                <span class="component-label">AWS CodeGuru Reviewer</span>
+                Static scanner integrated into CI/CD to detect accidentally hard-coded secrets.
+              </div>
+            </li>
+          </ul>
+
+          <div class="legend">
+            <div class="legend-item">
+              <span class="legend-badge danger"></span>
+              Hard-coded secret (what we are eliminating)
+            </div>
+            <div class="legend-item">
+              <span class="legend-badge warning"></span>
+              Secret in vault, but overly broad IAM
+            </div>
+            <div class="legend-item">
+              <span class="legend-badge success"></span>
+              Secret in vault + least-privilege role
+            </div>
+          </div>
+        </section>
+
+        <!-- RIGHT: Dataset + Model sections -->
+        <section class="section">
+          <div class="section-header">
+            <div class="section-title">
+              <span class="icon">3</span>
+              Dataset &amp; Code
+            </div>
+            <div class="section-badge">Current risk</div>
+          </div>
+
+          <div class="data-card">
+            <div class="data-title">Dataset / Project Code</div>
+            <div class="data-body">
+              In this context, the <span class="label">"dataset"</span> refers to the ML
+              project repository that <b>currently contains a hard-coded AWS Secret Access Key</b>.
+              This is intentionally treated as a <b>bad example</b> to be caught and remediated.
+            </div>
+            <div class="tag-row">
+              <div class="tag">Hard-coded secret present</div>
+              <div class="tag">Target for refactoring</div>
+              <div class="tag">Static scan required</div>
+            </div>
+          </div>
+
+          <div class="section-header" style="margin-top: 8px;">
+            <div class="section-title">
+              <span class="icon">4</span>
+              Model &amp; CI/CD
+            </div>
+            <div class="section-badge">Quality gate</div>
+          </div>
+
+          <div class="model-card">
+            <div class="model-title">Model Security Check</div>
+            <div class="model-body">
+              The “model” aspect of this project is not a specific ML algorithm, but the
+              <span class="label">static analysis model</span> provided by
+              <b>AWS CodeGuru Reviewer’s secrets detector</b>, integrated into CI/CD.
+            </div>
+            <div class="model-body" style="margin-top: 6px;">
+              Every push or merge triggers:
+              <ul class="objective-points" style="margin-top: 6px; padding-left: 16px;">
+                <li>Scanning for patterns that look like access keys, passwords, or tokens.</li>
+                <li>Blocking merges or surfacing warnings when secrets are found.</li>
+                <li>Encouraging remediation: move the value to a vault, replace code with dynamic lookup via IAM role.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="data-card">
+            <div class="data-title">Pipeline Responsibilities</div>
+            <div class="data-body">
+              <span class="label">Before deployment:</span> the pipeline must assert that
+              no new secrets are hard-coded. Only then can ML training/serving jobs be deployed.
+            </div>
+            <div class="tag-row">
+              <div class="tag">Pre-merge checks</div>
+              <div class="tag">Security as code</div>
+              <div class="tag">Auditable changes</div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+    </div>
+  </div>
+</body>
 </html>
