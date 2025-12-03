@@ -16,4 +16,4 @@ systemctl enable nginx
 systemctl start nginx
 
 # Simple index page (CodeDeploy can overwrite this later)
-echo "${index_message}" > /usr/share/nginx/html/index.html
+# echo "${index_message}" > /usr/share/nginx/html/index.html
