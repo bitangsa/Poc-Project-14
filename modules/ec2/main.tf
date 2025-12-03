@@ -37,6 +37,7 @@ resource "aws_instance" "this" {
       Name        = var.name
       Project     = var.project_name
       Environment = var.environment
+      CodeDeployApp = var.project_name
     },
     local.codedeploy_tag,
     var.extra_tags

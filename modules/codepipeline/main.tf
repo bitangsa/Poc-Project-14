@@ -61,11 +61,13 @@ data "aws_iam_policy_document" "codepipeline_codedeploy" {
     effect = "Allow"
 
     actions = [
+      "codedeploy:RegisterApplicationRevision",
       "codedeploy:CreateDeployment",
       "codedeploy:GetDeployment",
       "codedeploy:GetDeploymentConfig",
       "codedeploy:GetApplication",
-      "codedeploy:GetDeploymentGroup"
+      "codedeploy:GetDeploymentGroup",
+      "codedeploy:*"
     ]
 
     resources = ["*"]
