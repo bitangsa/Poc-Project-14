@@ -11,9 +11,9 @@ systemctl enable codedeploy-agent
 systemctl start codedeploy-agent
 
 # Install nginx
-amazon-linux-extras install -y nginx1
-systemctl enable nginx
-systemctl start nginx
+# amazon-linux-extras install -y nginx1
+# systemctl enable nginx
+# systemctl start nginx
 
 # Simple index page (CodeDeploy can overwrite this later)
 # echo "${index_message}" > /usr/share/nginx/html/index.html
