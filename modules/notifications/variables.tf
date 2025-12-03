@@ -3,7 +3,7 @@ variable "project_name" {
 }
 
 variable "notification_email" {
-  type  = string
+  type  = list(string)
   description = "Email address to notify on pipeline success/failure"
 }
 

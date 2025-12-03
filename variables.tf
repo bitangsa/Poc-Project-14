@@ -49,7 +49,7 @@ variable "codepipeline_policy_statements" {
 }
 
 variable "notification_email" {
-  type        = string
+  type        = list(string)
   description = "Email address for pipeline notifications"
 }
 

@@ -3,9 +3,10 @@ resource "aws_sns_topic" "pipeline_notifications" {
 }
 
 resource "aws_sns_topic_subscription" "email" {
+  for_each  = toset(var.notification_email)
   topic_arn = aws_sns_topic.pipeline_notifications.arn
   protocol  = "email"
-  endpoint  = var.notification_email
+  endpoint  = each.value
 }
 
 data "aws_iam_policy_document" "sns_pipeline_policy" {
